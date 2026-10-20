@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://neobrutalism-shop.github.io/sitemap.xml
+Sitemap: https://neobrutalismshop.github.io/sitemap.xml

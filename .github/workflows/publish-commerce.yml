@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf /tmp/NeoBrutal-Commerce
-          git clone --filter=blob:none https://github.com/NeoBrutalism-shop/NeoBrutal-Commerce.git /tmp/NeoBrutal-Commerce
+          git clone --filter=blob:none https://github.com/NeoBrutalismshop/NeoBrutal-Commerce.git /tmp/NeoBrutal-Commerce
           git -C /tmp/NeoBrutal-Commerce checkout "$COMMERCE_SOURCE_SHA"
           test "$(git -C /tmp/NeoBrutal-Commerce rev-parse HEAD)" = "$COMMERCE_SOURCE_SHA"
           node -e "const p=require('/tmp/NeoBrutal-Commerce/package.json'); if(p.name!=='@neobrutal/commerce'||p.version!=='1.0.0'||p.private!==false) process.exit(1)"

@@ -59,12 +59,12 @@ jobs:
           grep -q 'href="./commerce/components.html"' index.html
           grep -q 'href="./commerce/demo/v10.html"' index.html
 
-          grep -q 'https://neobrutalism-shop.github.io/commerce/' README.md
-          grep -q 'https://neobrutalism-shop.github.io/commerce/components.html' README.md
-          grep -q 'https://neobrutalism-shop.github.io/commerce/demo/v10.html' README.md
-          grep -q 'https://neobrutalism-shop.github.io/commerce/' llms.txt
-          grep -q 'https://neobrutalism-shop.github.io/commerce/components.html' sitemap.xml
-          grep -q 'https://neobrutalism-shop.github.io/commerce/demo/v10.html' sitemap.xml
+          grep -q 'https://neobrutalismshop.github.io/commerce/' README.md
+          grep -q 'https://neobrutalismshop.github.io/commerce/components.html' README.md
+          grep -q 'https://neobrutalismshop.github.io/commerce/demo/v10.html' README.md
+          grep -q 'https://neobrutalismshop.github.io/commerce/' llms.txt
+          grep -q 'https://neobrutalismshop.github.io/commerce/components.html' sitemap.xml
+          grep -q 'https://neobrutalismshop.github.io/commerce/demo/v10.html' sitemap.xml
 
           grep -q '2c8ba6dd2c61079dc11514de71d1fcf03b5de0ac' .github/workflows/publish-commerce.yml
           grep -q "p.version!=='1.0.0'" .github/workflows/publish-commerce.yml

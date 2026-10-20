@@ -19,7 +19,7 @@ jobs:
       - name: Fetch approved Soft v0.7 source
         run: |
           rm -rf /tmp/NeoBrutal-Soft
-          git clone --filter=blob:none https://github.com/NeoBrutalism-shop/NeoBrutal-Soft.git /tmp/NeoBrutal-Soft
+          git clone --filter=blob:none https://github.com/NeoBrutalismshop/NeoBrutal-Soft.git /tmp/NeoBrutal-Soft
           git -C /tmp/NeoBrutal-Soft checkout dfed77bd159ac5c38081f7a4ca5c2229b61ffb8a
 
       - name: Publish static runtime to /soft
