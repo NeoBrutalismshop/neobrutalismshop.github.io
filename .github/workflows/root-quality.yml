@@ -1,0 +1,102 @@
+name: Foundry root quality
+
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'foundry.css'
+      - 'foundry-polish.css'
+      - 'foundry.js'
+      - 'README.md'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - 'llms.txt'
+      - '.github/workflows/root-quality.yml'
+      - '.github/workflows/publish-commerce.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'foundry.css'
+      - 'foundry-polish.css'
+      - 'foundry.js'
+      - 'README.md'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - 'llms.txt'
+      - '.github/workflows/root-quality.yml'
+      - '.github/workflows/publish-commerce.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  root-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: JavaScript syntax
+        run: node --check foundry.js
+
+      - name: Foundry interaction and archive contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f foundry.css
+          test -f foundry-polish.css
+          test -f foundry.js
+          test -f README.md
+          test -f llms.txt
+          test -f sitemap.xml
+          test -f .github/workflows/publish-commerce.yml
+
+          grep -q 'href="./soft/"' index.html
+          grep -q 'href="./soft/components.html"' index.html
+          grep -q 'LIVE · v1.0' index.html
+          grep -q 'href="./commerce/"' index.html
+          grep -q 'href="./commerce/components.html"' index.html
+          grep -q 'href="./commerce/demo/v10.html"' index.html
+
+          grep -q 'https://neobrutalism-shop.github.io/commerce/' README.md
+          grep -q 'https://neobrutalism-shop.github.io/commerce/components.html' README.md
+          grep -q 'https://neobrutalism-shop.github.io/commerce/demo/v10.html' README.md
+          grep -q 'https://neobrutalism-shop.github.io/commerce/' llms.txt
+          grep -q 'https://neobrutalism-shop.github.io/commerce/components.html' sitemap.xml
+          grep -q 'https://neobrutalism-shop.github.io/commerce/demo/v10.html' sitemap.xml
+
+          grep -q '2c8ba6dd2c61079dc11514de71d1fcf03b5de0ac' .github/workflows/publish-commerce.yml
+          grep -q "p.version!=='1.0.0'" .github/workflows/publish-commerce.yml
+          grep -q 'components.html' .github/workflows/publish-commerce.yml
+          grep -q 'demo/v10.html' .github/workflows/publish-commerce.yml
+
+          grep -q 'Compress, never float' llms.txt
+          grep -q 'foundry-marquee' foundry-polish.css
+          grep -q 'prefers-reduced-motion' foundry-polish.css
+          grep -q 'Play moving foundry banner' foundry.js
+
+          if grep -Eiq 'transition[[:space:]]*:[[:space:]]*all' foundry.css foundry-polish.css; then
+            echo 'transition: all is prohibited'
+            exit 1
+          fi
+          if grep -Eiq ':hover[^\{]*\{[^\}]*translate(Y)?\([[:space:]]*-' foundry.css foundry-polish.css; then
+            echo 'Upward hover lift is prohibited'
+            exit 1
+          fi
+
+      - name: Serve and verify current public paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >/tmp/foundry-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          sleep 1
+          curl --fail --silent http://127.0.0.1:4173/ >/dev/null
+          curl --fail --silent http://127.0.0.1:4173/foundry.css >/dev/null
+          curl --fail --silent http://127.0.0.1:4173/foundry-polish.css >/dev/null
+          curl --fail --silent http://127.0.0.1:4173/foundry.js >/dev/null
+          curl --fail --silent http://127.0.0.1:4173/soft/ >/dev/null
+          curl --fail --silent http://127.0.0.1:4173/soft/components.html >/dev/null
+          curl --fail --silent http://127.0.0.1:4173/soft/demo/v07.html >/dev/null
